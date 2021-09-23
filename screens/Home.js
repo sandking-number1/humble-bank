@@ -93,7 +93,9 @@ export default function Home({}) {
       <View style={styles.activities_container}>
         <View style={styles.activities_bar}>
           <Text>Recent Activities</Text>
-          <Text>BTN</Text>
+          <TouchableOpacity>
+            <Text>BTN</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.activities_list}>
@@ -103,6 +105,7 @@ export default function Home({}) {
               return (
                 <TransList
                   key={i._id}
+                  created={i.created}
                   amount={i.amount}
                   description={i.description}
                 ></TransList>
