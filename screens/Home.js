@@ -5,31 +5,46 @@ import {
   Text,
   View,
   SafeAreaView,
-  TextInput,
   TouchableOpacity,
 } from 'react-native';
+import TransList from '../src/components/TransList';
 
 export default function Home({}) {
-  const [transLists, setTransList] = useState([]);
-  const [remaining, setRemaining] = useState([]);
+  const [initialLoading, setInitialLoading] = useState([]);
+  const [transactionList, setTransactionList] = useState([]);
+
+  const [initialBalance, setInitialBalance] = useState();
+  const [sum, setSum] = useState();
+
+  //   const [totalSpend, setTotalSpend] = useState();
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {}, [sum]);
+
   const fetchData = () => {
     return fetch(`http://localhost:3001/transaction`)
       .then((res) => res.json())
       .then((data) => {
-        setTransList(data);
-        setRemaining(transLists[0]);
+        setInitialLoading(data);
+        setTransactionList(data.slice(1));
+        setInitialBalance(data[0].account_balance);
+        setSum(data.slice(1).reduce((a, b) => a + b.amount, 0));
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  console.log('remain   ', remaining);
+  //   const initialBalance = initialLoading.length
+  //     ? initialLoading[0].account_balance
+  //     : 0;
+  //   const sum = transactionList.length
+  //     ? transactionList.reduce((a, b) => a + b.amount, 0)
+  //     : 0;
+  //   const remaining = initialBalance + sum;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -50,7 +65,10 @@ export default function Home({}) {
           <View style={styles.cardContainer}>
             <View style={styles.cardElements}>
               <Text style={styles.cardFont}>Balance</Text>
-              <Text style={styles.cardFont}>{`£`}</Text>
+              <Text
+                style={styles.cardFont}
+                // ${initialLoading[0].account_balance}
+              >{`£ ${initialBalance + sum}`}</Text>
               <Text style={styles.cardFont}>18days to go</Text>
             </View>
           </View>
@@ -62,28 +80,35 @@ export default function Home({}) {
         {/* budget buttons */}
         <View>
           <View style={styles.budgetBtnBox}>
-            <Text>add spend</Text>
-            <Text>add Money</Text>
+            <TouchableOpacity>
+              <Text>add spend</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text>add Money</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
       {/* recent activities */}
       <View style={styles.activities_container}>
         <View style={styles.activities_bar}>
-          <Text>recent activities</Text>
-          <Text>button</Text>
+          <Text>Recent Activities</Text>
+          <Text>BTN</Text>
         </View>
+
         <View style={styles.activities_list}>
-          <View style={styles.activities_item}>
-            <Text>icon</Text>
-            <Text>Netflix Membership</Text>
-            <Text>amount</Text>
-          </View>
-          <View style={styles.activities_item}>
-            <Text>icon</Text>
-            <Text>Netflix Membership</Text>
-            <Text>amount</Text>
-          </View>
+          {/* mapping */}
+          {initialLoading.map((i) => {
+            if (i.amount) {
+              return (
+                <TransList
+                  key={i._id}
+                  amount={i.amount}
+                  description={i.description}
+                ></TransList>
+              );
+            }
+          })}
         </View>
       </View>
     </SafeAreaView>

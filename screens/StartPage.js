@@ -58,8 +58,7 @@ export default function StartPage({ navigation }) {
           style={styles.button}
           onPress={() => {
             saveBudget();
-            console.log(inputBudget);
-            // postInitialBudget(inputBudget);
+            postInitialBudget(inputBudget);
             navigation.navigate('Home');
           }}
           underlayColor="#fff"
