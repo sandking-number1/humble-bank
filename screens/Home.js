@@ -6,17 +6,18 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
+import { cos } from 'react-native-reanimated';
+import HomeMain from '../src/components/home/HomeMain';
 import TransList from '../src/components/TransList';
 
-export default function Home({}) {
+export default function Home({ navigation }) {
   const [initialLoading, setInitialLoading] = useState([]);
-  const [transactionList, setTransactionList] = useState([]);
-
   const [initialBalance, setInitialBalance] = useState();
   const [sum, setSum] = useState();
 
-  //   const [totalSpend, setTotalSpend] = useState();
+  const reducer = (previousValue, currentValue) => previousValue + currentValue;
 
   useEffect(() => {
     fetchData();
@@ -29,22 +30,21 @@ export default function Home({}) {
       .then((res) => res.json())
       .then((data) => {
         setInitialLoading(data);
-        setTransactionList(data.slice(1));
         setInitialBalance(data[0].account_balance);
-        setSum(data.slice(1).reduce((a, b) => a + b.amount, 0));
+        if (data.slice(1).length >= 1) {
+          const amountArray = [];
+          data.slice(1).map((i) => {
+            amountArray.push(i.amount);
+          });
+          setSum(amountArray.reduce(reducer));
+        } else {
+          setSum(0);
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  //   const initialBalance = initialLoading.length
-  //     ? initialLoading[0].account_balance
-  //     : 0;
-  //   const sum = transactionList.length
-  //     ? transactionList.reduce((a, b) => a + b.amount, 0)
-  //     : 0;
-  //   const remaining = initialBalance + sum;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -60,33 +60,28 @@ export default function Home({}) {
         </View>
       </View>
       {/* budget indicator */}
+      <HomeMain key={1} initialBalance={initialBalance} sum={sum}></HomeMain>
+      {/* add btns */}
       <View>
-        <View style={{ alignItems: 'center' }}>
-          <View style={styles.cardContainer}>
-            <View style={styles.cardElements}>
-              <Text style={styles.cardFont}>Balance</Text>
-              <Text
-                style={styles.cardFont}
-                // ${initialLoading[0].account_balance}
-              >{`£ ${initialBalance + sum}`}</Text>
-              <Text style={styles.cardFont}>18days to go</Text>
-            </View>
-          </View>
-          <View style={styles.budgetADay}>
-            <Text>Ideal budget for a day </Text>
-            <Text> £ 60</Text>
-          </View>
-        </View>
-        {/* budget buttons */}
-        <View>
-          <View style={styles.budgetBtnBox}>
-            <TouchableOpacity>
-              <Text>add spend</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text>add Money</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.budgetBtnBox}>
+          <TouchableOpacity>
+            <Text
+              onPress={() => {
+                navigation.navigate('AddSpend');
+              }}
+            >
+              add spend
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text
+              onPress={() => {
+                navigation.navigate('AddMoney');
+              }}
+            >
+              add Money
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
       {/* recent activities */}
@@ -94,12 +89,17 @@ export default function Home({}) {
         <View style={styles.activities_bar}>
           <Text>Recent Activities</Text>
           <TouchableOpacity>
-            <Text>BTN</Text>
+            <Text
+              onPress={() => {
+                navigation.navigate('TransDetails');
+              }}
+            >
+              BTN
+            </Text>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.activities_list}>
-          {/* mapping */}
+        {/* mapping */}
+        <ScrollView>
           {initialLoading.map((i) => {
             if (i.amount) {
               return (
@@ -112,7 +112,7 @@ export default function Home({}) {
               );
             }
           })}
-        </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -126,23 +126,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     marginBottom: 70,
   },
-  cardContainer: {
-    alignItems: 'center',
-    backgroundColor: '#8438FF',
-    width: 250,
-    height: 150,
-    borderRadius: 10,
-    marginBottom: 30,
-
-    // flex: 1,
-    // justifyContent: 'space-around',
-    // padding:
-  },
-  cardFont: {
-    fontSize: 30,
-    color: '#FFFFFF',
-  },
-
   budgetADay: {
     alignItems: 'center',
   },
@@ -158,19 +141,5 @@ const styles = StyleSheet.create({
   activities_bar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-  },
-  activities_list: {
-    marginTop: 40,
-    // backgroundColor: 'blue',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  activities_item: {
-    // flex: 1,
-    // backgroundColor: 'red',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 20,
-    width: 400,
   },
 });

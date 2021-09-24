@@ -1,12 +1,14 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import moment from 'moment';
 
 export default function TransList(props) {
   const formatDate = (original) => {
     const date = moment(original).format('D.M.YYYY');
-    console.log(moment());
-    console.log('start', moment().endOf('month'));
+    const d = moment();
+    const today = d.get('date');
+    const daysInMonth = d.daysInMonth();
+    const remainingDays = daysInMonth - today;
     return date;
   };
 
@@ -25,8 +27,6 @@ export default function TransList(props) {
 
 const styles = StyleSheet.create({
   activities_item: {
-    // flex: 1,
-    // backgroundColor: 'red',
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 20,

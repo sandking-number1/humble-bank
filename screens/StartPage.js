@@ -31,6 +31,7 @@ export default function StartPage({ navigation }) {
       },
       body: JSON.stringify({
         account_balance: inputBudget,
+        amount: 0,
       }),
     });
   };
@@ -47,6 +48,7 @@ export default function StartPage({ navigation }) {
         <TextInput
           style={styles.input}
           keyboardType="numeric"
+          returnKeyType={'done'}
           onChangeText={setInputBudget}
           placeholder="Set your goal"
           value={inputBudget}
