@@ -7,10 +7,12 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import { cos } from 'react-native-reanimated';
 import HomeMain from '../src/components/home/HomeMain';
 import TransList from '../src/components/TransList';
+import IconButton from '../src/components/iconButton';
 
 export default function Home({ navigation }) {
   const [initialLoading, setInitialLoading] = useState([]);
@@ -21,29 +23,31 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     fetchData();
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchData();
+      console.log('revisit');
+    });
+    return unsubscribe;
   }, []);
 
-  useEffect(() => {}, [sum]);
-
-  const fetchData = () => {
-    return fetch(`http://localhost:3001/transaction`)
-      .then((res) => res.json())
-      .then((data) => {
-        setInitialLoading(data);
-        setInitialBalance(data[0].account_balance);
-        if (data.slice(1).length >= 1) {
-          const amountArray = [];
-          data.slice(1).map((i) => {
-            amountArray.push(i.amount);
-          });
-          setSum(amountArray.reduce(reducer));
-        } else {
-          setSum(0);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const fetchData = async () => {
+    try {
+      const res = await fetch(`http://localhost:3001/transaction`);
+      const data = await res.json();
+      setInitialLoading(data);
+      setInitialBalance(data[0].account_balance);
+      if (data.slice(1).length >= 1) {
+        const amountArray = [];
+        data.slice(1).map((i) => {
+          amountArray.push(i.amount);
+        });
+        setSum(amountArray.reduce(reducer));
+      } else {
+        setSum(0);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -52,6 +56,7 @@ export default function Home({ navigation }) {
         <View style={styles.navigation}>
           <TouchableOpacity>
             <Text>Back</Text>
+            <IconButton />
           </TouchableOpacity>
           <Text>Home</Text>
           <TouchableOpacity>
@@ -99,20 +104,24 @@ export default function Home({ navigation }) {
           </TouchableOpacity>
         </View>
         {/* mapping */}
-        <ScrollView>
-          {initialLoading.map((i) => {
-            if (i.amount) {
-              return (
-                <TransList
-                  key={i._id}
-                  created={i.created}
-                  amount={i.amount}
-                  description={i.description}
-                ></TransList>
-              );
-            }
-          })}
-        </ScrollView>
+        <View style={styles.listContainer}>
+          <FlatList
+            keyExtractor={(item) => item.id}
+            data={initialLoading}
+            renderItem={({ item }) => {
+              if (item.amount) {
+                return (
+                  <TransList
+                    key={item._id}
+                    created={item.created}
+                    amount={item.amount}
+                    description={item.description}
+                  ></TransList>
+                );
+              }
+            }}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -141,5 +150,8 @@ const styles = StyleSheet.create({
   activities_bar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  listContainer: {
+    height: 270,
   },
 });

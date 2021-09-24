@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import moment from 'moment';
+import * as Font from 'expo-font';
 
 export default function TransList(props) {
   const d = moment();
@@ -9,7 +10,6 @@ export default function TransList(props) {
   const remainingDays = daysInMonth - today;
 
   const remainingBalance = props.initialBalance + props.sum;
-  //   console.log(props.sum);
   const budgetADay = Math.round(remainingBalance / remainingDays);
 
   return (
@@ -31,7 +31,7 @@ export default function TransList(props) {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#8438FF',
     width: 250,
     height: 150,

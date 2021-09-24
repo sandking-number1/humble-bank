@@ -17,6 +17,8 @@ const postTransaction = async (req, res) => {
   const amount = req.body.amount;
   const description = req.body.description;
   const created = req.body.created;
+  const spending = req.body.spending;
+  const addMoney = req.body.addMoney;
   try {
     const transaction = await Transaction.create({
       account_balance,
@@ -24,6 +26,8 @@ const postTransaction = async (req, res) => {
       amount,
       description,
       created,
+      spending,
+      addMoney,
     });
     res.status(200);
     res.send(transaction);

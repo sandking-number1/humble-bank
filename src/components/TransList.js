@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import moment from 'moment';
+import { FlatList } from 'react-native-gesture-handler';
 
 export default function TransList(props) {
   const formatDate = (original) => {

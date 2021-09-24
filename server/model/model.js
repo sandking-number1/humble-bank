@@ -8,6 +8,8 @@ const transactionSchema = new Schema({
   amount: { type: Number },
   description: { type: String },
   created: { type: Date },
+  spending: { type: Boolean },
+  addMoney: { type: Boolean },
 });
 
 const Transaction = mongoose.model('Budget', transactionSchema);
