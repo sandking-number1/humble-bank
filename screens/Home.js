@@ -55,12 +55,12 @@ export default function Home({ navigation }) {
       <View>
         <View style={styles.navigation}>
           <TouchableOpacity>
-            <Text>Back</Text>
-            <IconButton />
+            {/* <Text>Back</Text> */}
+            <IconButton name={'left'} />
           </TouchableOpacity>
           <Text>Home</Text>
           <TouchableOpacity>
-            <Text>setting</Text>
+            <IconButton name={'setting'} />
           </TouchableOpacity>
         </View>
       </View>
@@ -75,7 +75,7 @@ export default function Home({ navigation }) {
                 navigation.navigate('AddSpend');
               }}
             >
-              add spend
+              <IconButton name={'tago'} />
             </Text>
           </TouchableOpacity>
           <TouchableOpacity>
@@ -84,7 +84,7 @@ export default function Home({ navigation }) {
                 navigation.navigate('AddMoney');
               }}
             >
-              add Money
+              <IconButton name={'plussquare'} />
             </Text>
           </TouchableOpacity>
         </View>
@@ -92,14 +92,14 @@ export default function Home({ navigation }) {
       {/* recent activities */}
       <View style={styles.activities_container}>
         <View style={styles.activities_bar}>
-          <Text>Recent Activities</Text>
+          <Text style={styles.idealSpend}>Recent Activities</Text>
           <TouchableOpacity>
             <Text
               onPress={() => {
                 navigation.navigate('TransDetails');
               }}
             >
-              BTN
+              <IconButton name={'bars'} />
             </Text>
           </TouchableOpacity>
         </View>
@@ -142,16 +142,24 @@ const styles = StyleSheet.create({
     // flex: 1,
     marginTop: 60,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
   },
   activities_container: {
     marginTop: 90,
+    // alignItems: 'center',
+    justifyContent: 'center',
   },
   activities_bar: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-around',
   },
   listContainer: {
     height: 270,
+  },
+  idealSpend: {
+    fontSize: 12,
+    color: '#60708F',
+    fontWeight: '700',
   },
 });

@@ -8,6 +8,7 @@ export default function TransList(props) {
   const today = d.get('date');
   const daysInMonth = d.daysInMonth();
   const remainingDays = daysInMonth - today;
+  console.log(remainingDays > 1);
 
   const remainingBalance = props.initialBalance + props.sum;
   const budgetADay = Math.round(remainingBalance / remainingDays);
@@ -15,15 +16,26 @@ export default function TransList(props) {
   return (
     <View style={{ alignItems: 'center' }}>
       <View style={styles.cardContainer}>
-        <View>
-          <Text style={styles.cardFont}>Balance</Text>
-          <Text style={styles.cardFont}>{`£ ${remainingBalance}`}</Text>
-          <Text style={styles.cardFont}>{`${remainingDays} day(s) to go`}</Text>
+        <View style={styles.balanceContainer}>
+          <Text style={[styles.cardFont]}>Balance</Text>
+        </View>
+        <View style={styles.remainingBalContain}>
+          <Text
+            style={[styles.cardFont, styles.remainingBalance]}
+          >{`£ ${remainingBalance}`}</Text>
+        </View>
+        <View style={styles.remainingDaysContain}>
+          <Text style={[styles.cardFont]}>
+            {remainingDays > 1
+              ? `${remainingDays} days to go`
+              : `${remainingDays} day to go`}
+          </Text>
         </View>
       </View>
-      <View style={styles.budgetADay}>
-        <Text>Ideal budget for a day </Text>
-        <Text>{`£ ${budgetADay}`}</Text>
+
+      <View style={styles.budgetADayContainer}>
+        <Text style={[styles.idealSpend]}>Ideal budget for a day </Text>
+        <Text style={[styles.idealSpend]}>{`£ ${budgetADay}`}</Text>
       </View>
     </View>
   );
@@ -32,14 +44,36 @@ export default function TransList(props) {
 const styles = StyleSheet.create({
   cardContainer: {
     justifyContent: 'center',
+    // alignItems: 'center',
     backgroundColor: '#8438FF',
     width: 250,
     height: 150,
     borderRadius: 10,
     marginBottom: 30,
+    padding: 30,
+  },
+  remainingBalContain: {
+    alignItems: 'center',
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  remainingBalance: {
+    fontSize: 34,
+  },
+  remainingDaysContain: {
+    alignItems: 'flex-end',
   },
   cardFont: {
-    fontSize: 30,
+    fontSize: 12,
     color: '#FFFFFF',
+    fontWeight: '700',
+  },
+  budgetADayContainer: {
+    alignItems: 'center',
+  },
+  idealSpend: {
+    fontSize: 12,
+    color: '#60708F',
+    fontWeight: '700',
   },
 });

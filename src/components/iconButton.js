@@ -1,5 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import Icon from 'react-native-vector-icons/AntDesign';
+import Icons from 'react-native-vector-icons/MaterialIcons';
+
 import {
   StyleSheet,
   Text,
@@ -12,7 +15,8 @@ import {
 export default function IconButton(props) {
   return (
     <View style={styles.iconBtnContainer}>
-      <Text style={styles.budget_copy}>S</Text>
+      <Icon name={props.name} size={20} color="#60708F" />
+      {/* <Text style={styles.budget_copy}>S</Text> */}
     </View>
   );
 }

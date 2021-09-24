@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import moment from 'moment';
 import { FlatList } from 'react-native-gesture-handler';
+import IconButton from '../../src/components/iconButton';
 
 export default function TransList(props) {
   const formatDate = (original) => {
@@ -15,7 +16,7 @@ export default function TransList(props) {
 
   return (
     <View style={styles.activities_item}>
-      <Text>icon</Text>
+      <IconButton name={'isv'} />
       <View>
         <Text>{props.description}</Text>
         <Text>{formatDate(props.created)}</Text>
