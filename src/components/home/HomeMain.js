@@ -8,7 +8,6 @@ export default function TransList(props) {
   const today = d.get('date');
   const daysInMonth = d.daysInMonth();
   const remainingDays = daysInMonth - today;
-  console.log(remainingDays > 1);
 
   const remainingBalance = props.initialBalance + props.sum;
   const budgetADay = Math.round(remainingBalance / remainingDays);

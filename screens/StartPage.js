@@ -39,6 +39,7 @@ export default function StartPage({ navigation }) {
         onChangeText={inputBudget}
         placeholder={`Set your goal`}
         styles={styles}
+        keyboardType="numeric"
       />
       {/* </View> */}
 

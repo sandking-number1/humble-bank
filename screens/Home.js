@@ -1,4 +1,5 @@
 // import { StatusBar } from 'expo-status-bar';
+// import { cos } from 'react-native-reanimated';
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -6,18 +7,18 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  ScrollView,
   FlatList,
 } from 'react-native';
-import { cos } from 'react-native-reanimated';
 import HomeMain from '../src/components/home/HomeMain';
 import TransList from '../src/components/TransList';
 import IconButton from '../src/components/iconButton';
+import { font } from '../src/components/GlobalStyles';
 
 export default function Home({ navigation }) {
   const [initialLoading, setInitialLoading] = useState([]);
   const [initialBalance, setInitialBalance] = useState();
   const [sum, setSum] = useState();
+  const remainingBalance = initialBalance + sum;
 
   const reducer = (previousValue, currentValue) => previousValue + currentValue;
 
@@ -25,7 +26,6 @@ export default function Home({ navigation }) {
     fetchData();
     const unsubscribe = navigation.addListener('focus', () => {
       fetchData();
-      console.log('revisit');
     });
     return unsubscribe;
   }, []);
@@ -50,78 +50,85 @@ export default function Home({ navigation }) {
     }
   };
 
+  function goToDetailsScreen(params) {
+    navigation.navigate('TransDetails', {
+      initialLoading: initialLoading,
+      remainingBalance: remainingBalance,
+    });
+  }
+
+  const renderItem = ({ item }) => {
+    if (item.amount) {
+      return (
+        <TransList
+          created={item.created}
+          amount={item.amount}
+          description={item.description}
+          keyExtractor={(item) => item._id}
+        ></TransList>
+      );
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View>
-        <View style={styles.navigation}>
-          <TouchableOpacity>
-            {/* <Text>Back</Text> */}
-            <IconButton name={'left'} />
-          </TouchableOpacity>
-          <Text>Home</Text>
-          <TouchableOpacity>
-            <IconButton name={'setting'} />
-          </TouchableOpacity>
-        </View>
+      <View style={styles.navigation}>
+        <TouchableOpacity>
+          <IconButton name={'left'} />
+        </TouchableOpacity>
+        <Text>Home</Text>
+        <TouchableOpacity>
+          <IconButton name={'setting'} />
+        </TouchableOpacity>
       </View>
       {/* budget indicator */}
       <HomeMain key={1} initialBalance={initialBalance} sum={sum}></HomeMain>
+
       {/* add btns */}
-      <View>
-        <View style={styles.budgetBtnBox}>
-          <TouchableOpacity>
-            <Text
-              onPress={() => {
-                navigation.navigate('AddSpend');
-              }}
-            >
-              <IconButton name={'tago'} />
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text
-              onPress={() => {
-                navigation.navigate('AddMoney');
-              }}
-            >
-              <IconButton name={'plussquare'} />
-            </Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.budgetBtnBox}>
+        <TouchableOpacity
+          style={styles.addBtn}
+          onPress={() => {
+            navigation.navigate('AddSpend');
+          }}
+        >
+          <View>
+            <IconButton style={{ paddingLeft: 10 }} name={'tago'} />
+            <Text style={[font.primary, { paddingTop: 10 }]}>AddSpend</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('AddMoney');
+          }}
+        >
+          <IconButton name={'plussquare'} />
+          <Text style={[font.primary, { paddingTop: 10 }]}>AddMoney</Text>
+        </TouchableOpacity>
       </View>
       {/* recent activities */}
-      <View style={styles.activities_container}>
-        <View style={styles.activities_bar}>
-          <Text style={styles.idealSpend}>Recent Activities</Text>
-          <TouchableOpacity>
-            <Text
-              onPress={() => {
-                navigation.navigate('TransDetails');
-              }}
-            >
-              <IconButton name={'bars'} />
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {/* mapping */}
-        <View style={styles.listContainer}>
-          <FlatList
-            keyExtractor={(item) => item.id}
-            data={initialLoading}
-            renderItem={({ item }) => {
-              if (item.amount) {
-                return (
-                  <TransList
-                    key={item._id}
-                    created={item.created}
-                    amount={item.amount}
-                    description={item.description}
-                  ></TransList>
-                );
-              }
+      <View style={styles.activities_bar}>
+        <Text style={styles.idealSpend}>Recent Activities</Text>
+        <TouchableOpacity>
+          <Text
+            onPress={() => {
+              goToDetailsScreen();
             }}
-          />
-        </View>
+          >
+            <IconButton name={'bars'} />
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {/* mapping for transaction list */}
+      <View style={styles.listContainer}>
+        <FlatList
+          data={initialLoading}
+          renderItem={renderItem}
+          keyExtractor={(item) => {
+            item._id;
+          }}
+        />
       </View>
     </SafeAreaView>
   );
@@ -129,7 +136,6 @@ export default function Home({ navigation }) {
 
 const styles = StyleSheet.create({
   navigation: {
-    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: 20,
@@ -139,20 +145,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   budgetBtnBox: {
-    // flex: 1,
     marginTop: 60,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },
-  activities_container: {
-    marginTop: 90,
-    // alignItems: 'center',
-    justifyContent: 'center',
-  },
+  activities_container: {},
   activities_bar: {
+    marginTop: 40,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    padding: 5,
+    paddingLeft: 40,
+    paddingRight: 40,
+    marginBottom: 10,
   },
   listContainer: {
     height: 270,

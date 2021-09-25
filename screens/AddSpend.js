@@ -27,7 +27,7 @@ export default function AddSpend({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header headerName={`Add Spending`} />
+      <Header headerName={`Add Spending`} iconName={'left'} />
       <MoneyInput
         mainCopy={`How much did you spend?`}
         placeholder={`£`}

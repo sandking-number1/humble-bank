@@ -4,6 +4,7 @@ import { cos } from 'react-native-reanimated';
 import Button from '../src/components/Button';
 import Header from '../src/components/Header';
 import MoneyInput from '../src/components/MoneyInput';
+import IconButton from '../src/components/iconButton';
 
 export default function AddMoney({ navigation }) {
   const [inputAmount, setInputAmount] = React.useState(1235);
