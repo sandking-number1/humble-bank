@@ -14,6 +14,7 @@ import IconButton from '../src/components/iconButton';
 
 export default function TransDetails({ route, navigation }) {
   const { remainingBalance, initialLoading } = route.params;
+  const [searchTerm, setSearchTerm] = useState('');
   const renderItem = ({ item }) => {
     if (item.amount) {
       return (
@@ -22,10 +23,30 @@ export default function TransDetails({ route, navigation }) {
           amount={item.amount}
           description={item.description}
           keyExtractor={(item) => item._id}
-        ></TransList>
+        />
       );
     }
   };
+
+  const searchResult = initialLoading.filter((i) => {
+    if (searchTerm === '') {
+      //   console.log(i);
+      return i;
+    } else if (
+      i.description &&
+      i.description.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      //   console.log(i);
+      return i;
+    }
+  });
+
+  //   console.log(testObject);
+  //   const handelSearch = (text) => {
+  //     console.log(text);
+  //   };
+
+  //   const searchResult = remainingBalance.map((item) => console.log(item));
 
   return (
     <SafeAreaView
@@ -70,12 +91,12 @@ export default function TransDetails({ route, navigation }) {
       </View>
       <DivideLine />
       {/* searchbar */}
-      <SearchBar />
+      <SearchBar onChangeText={setSearchTerm} value={searchTerm} />
 
       {/* transaction list */}
       <View style={{ height: 500 }}>
         <FlatList
-          data={initialLoading}
+          data={searchResult}
           renderItem={renderItem}
           keyExtractor={(item) => {
             item._id;

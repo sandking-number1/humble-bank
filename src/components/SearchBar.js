@@ -1,17 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, TextInput, SafeAreaView } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 import { font } from './GlobalStyles';
-import { IconButton, IconBtnOnly } from './iconButton';
+import { IconBtnOnly } from './iconButton';
 
-export default function SearchBar() {
+export default function SearchBar(props) {
   return (
     <View style={styles.container}>
       <IconBtnOnly name="search1" />
       <TextInput
         style={(font.searchBarPlaceholder, { marginLeft: 10 })}
-        placeholder="Search"
+        placeholder="Search..."
         placeholderTextColor="#8B98B1"
+        onChangeText={props.onChangeText}
       ></TextInput>
     </View>
   );

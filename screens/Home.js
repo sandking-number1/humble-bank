@@ -1,5 +1,3 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { cos } from 'react-native-reanimated';
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -11,11 +9,12 @@ import {
 } from 'react-native';
 import HomeMain from '../src/components/home/HomeMain';
 import TransList from '../src/components/TransList';
-import IconButton from '../src/components/iconButton';
+import { IconButton, IconBtnOnly } from '../src/components/iconButton';
 import { font } from '../src/components/GlobalStyles';
 
 export default function Home({ navigation }) {
   const [initialLoading, setInitialLoading] = useState([]);
+  //   const [filterTrans, setFilterTrans] = useState([]);
   const [initialBalance, setInitialBalance] = useState();
   const [sum, setSum] = useState();
   const remainingBalance = initialBalance + sum;
@@ -34,7 +33,7 @@ export default function Home({ navigation }) {
     try {
       const res = await fetch(`http://localhost:3001/transaction`);
       const data = await res.json();
-      setInitialLoading(data);
+      setInitialLoading(sortDate(data));
       setInitialBalance(data[0].account_balance);
       if (data.slice(1).length >= 1) {
         const amountArray = [];
@@ -49,6 +48,16 @@ export default function Home({ navigation }) {
       console.log(err);
     }
   };
+
+  function sortDate(data) {
+    return data.sort((a, b) => {
+      if (b.created && a.created) {
+        const dateA = new Date(a.created).getTime();
+        const dateB = new Date(b.created).getTime();
+        return dateB - dateA;
+      }
+    });
+  }
 
   function goToDetailsScreen(params) {
     navigation.navigate('TransDetails', {
@@ -73,13 +82,13 @@ export default function Home({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.navigation}>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <IconButton name={'left'} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text>Home</Text>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <IconButton name={'setting'} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {/* budget indicator */}
       <HomeMain key={1} initialBalance={initialBalance} sum={sum}></HomeMain>
@@ -107,7 +116,7 @@ export default function Home({ navigation }) {
           <Text style={[font.primary, { paddingTop: 10 }]}>AddMoney</Text>
         </TouchableOpacity>
       </View>
-      {/* recent activities */}
+      {/* recent activities bar */}
       <View style={styles.activities_bar}>
         <Text style={styles.idealSpend}>Recent Activities</Text>
         <TouchableOpacity>
@@ -116,7 +125,7 @@ export default function Home({ navigation }) {
               goToDetailsScreen();
             }}
           >
-            <IconButton name={'bars'} />
+            <IconBtnOnly name={'bars'} />
           </Text>
         </TouchableOpacity>
       </View>
