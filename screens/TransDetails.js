@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import SearchBar from '../src/components/SearchBar';
 import TransList from '../src/components/TransList';
-import DivideLine from '../src/components/divideLine';
+import DivideLine from '../src/components/DivideLine';
 import IconButton from '../src/components/Icon';
 
 export default function TransDetails({ route, navigation }) {

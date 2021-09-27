@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView, AppState } from 'react-native';
 import Button from '../src/components/Button';
 import Header from '../src/components/Header';
 import MoneyInput from '../src/components/MoneyInput';
@@ -9,25 +9,46 @@ export default function AddSpend({ navigation }) {
   const [inputDescription, setInputDescription] = React.useState();
   const [dataApproved, setDataApproved] = React.useState(false);
 
-  const postSpending = () => {
-    if (inputAmount && inputDescription) {
-      setDataApproved(true);
-      navigation.navigate('Home');
-      return fetch('http://localhost:3001/transaction', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: `-${inputAmount}`,
-          created: Date.now(),
-          description: inputDescription,
-          spending: 'true',
-        }),
-      });
-    } else alert('Please fill up inputs');
+  const postSpending = async () => {
+    try {
+      if (inputAmount && inputDescription) {
+        setDataApproved(true);
+        const addSpending = {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: `-${inputAmount}`,
+            created: Date.now(),
+            description: inputDescription,
+            spending: 'true',
+          }),
+        };
+        await fetch('http://localhost:3001/transaction', addSpending);
+        console.log('it has been posted');
+        navigation.navigate('Home');
+      } else alert('Please fill up inputs');
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  //   const postRequest = async () =>
+  //     fetch('http://localhost:3001/transaction', {
+  //       method: 'POST',
+  //       headers: {
+  //         Accept: 'application/json',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         amount: `-${inputAmount}`,
+  //         created: Date.now(),
+  //         description: inputDescription,
+  //         spending: 'true',
+  //       }),
+  //     });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -53,7 +74,6 @@ export default function AddSpend({ navigation }) {
         dataApproved={dataApproved}
         btnCopy={`Save it as today`}
       />
-      {/* <Button btnCopy={`Set a date`} /> */}
     </SafeAreaView>
   );
 }

@@ -14,25 +14,27 @@ import { font } from '../src/components/GlobalStyles';
 
 export default function Home({ navigation }) {
   const [initialLoading, setInitialLoading] = useState([]);
-  //   const [filterTrans, setFilterTrans] = useState([]);
   const [initialBalance, setInitialBalance] = useState();
   const [sum, setSum] = useState();
   const remainingBalance = initialBalance + sum;
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const reducer = (previousValue, currentValue) => previousValue + currentValue;
 
   useEffect(() => {
     fetchData();
     const unsubscribe = navigation.addListener('focus', () => {
+      console.log('revisit');
       fetchData();
     });
     return unsubscribe;
-  }, []);
+  }, [navigation]);
 
   const fetchData = async () => {
     try {
       const res = await fetch(`http://localhost:3001/transaction`);
       const data = await res.json();
+      console.log(data);
       setInitialLoading(sortDate(data));
       setInitialBalance(data[0].account_balance);
       if (data.slice(1).length >= 1) {
@@ -59,7 +61,7 @@ export default function Home({ navigation }) {
     });
   }
 
-  function goToDetailsScreen(params) {
+  function goToDetailsScreen() {
     navigation.navigate('TransDetails', {
       initialLoading: initialLoading,
       remainingBalance: remainingBalance,
@@ -82,18 +84,13 @@ export default function Home({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.navigation}>
-        {/* <TouchableOpacity>
-          <IconButton name={'left'} />
-        </TouchableOpacity> */}
         <Text>Home</Text>
-        {/* <TouchableOpacity>
-          <IconButton name={'setting'} />
-        </TouchableOpacity> */}
       </View>
-      {/* budget indicator */}
+
+      {/* budget card  */}
       <HomeMain key={1} initialBalance={initialBalance} sum={sum}></HomeMain>
 
-      {/* add btns */}
+      {/* btn container */}
       <View style={styles.budgetBtnBox}>
         <TouchableOpacity
           style={styles.addBtn}

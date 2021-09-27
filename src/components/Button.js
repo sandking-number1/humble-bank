@@ -8,11 +8,8 @@ export default function Button(props) {
         style={styles.button}
         onPress={() => {
           props.callBack();
-          //   props.dataApproved === true
-          //     ? props.navigation.navigate('Home')
-          //     : null;
         }}
-        underlayColor="#fff"
+        // underlayColor="#fff"
       >
         <Text style={styles.enter}>{props.btnCopy}</Text>
       </TouchableOpacity>
