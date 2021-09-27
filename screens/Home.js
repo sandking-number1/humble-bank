@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import HomeMain from '../src/components/home/HomeMain';
 import TransList from '../src/components/TransList';
-import { IconButton, IconBtnOnly } from '../src/components/iconButton';
+import { IconButton, IconBtnOnly } from '../src/components/Icon';
 import { font } from '../src/components/GlobalStyles';
 
 export default function Home({ navigation }) {

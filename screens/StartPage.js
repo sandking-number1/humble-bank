@@ -3,17 +3,20 @@ import React from 'react';
 import MoneyInput from '../src/components/MoneyInput';
 import Button from '../src/components/Button';
 import Header from '../src/components/Header';
-// import PresetSafeView from '../src/components/PresetSafeView';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 
 export default function StartPage({ navigation }) {
   const [inputBudget, setInputBudget] = React.useState();
+  const [dataApproved, setDataApproved] = React.useState(false);
+
   const postBudget = () => {
-    if (inputBudget == 0) {
-      alert("it can't be smaller than 0");
-    } else {
+    if (inputBudget > 0) {
       postInitialBudget(inputBudget);
-    }
+      setDataApproved(true);
+      navigation.navigate('Home');
+    } else if (typeof inputBudget === '') {
+      alert('Please add your goal');
+    } else alert('Please check your goal again');
   };
 
   const postInitialBudget = (inputBudget) => {
@@ -35,12 +38,12 @@ export default function StartPage({ navigation }) {
       <Header headerName={`Bankaver`} />
       <MoneyInput
         mainCopy={`What's the most you want to spend?`}
-        value={setInputBudget}
-        onChangeText={inputBudget}
+        value={inputBudget}
+        onChangeText={setInputBudget}
         placeholder={`Set your goal`}
-        styles={styles}
         keyboardType="numeric"
       />
+
       {/* </View> */}
 
       {/* btn */}
@@ -48,6 +51,7 @@ export default function StartPage({ navigation }) {
         callBack={postBudget}
         navigation={navigation}
         btnCopy={`Enter`}
+        dataApproved={dataApproved}
       ></Button>
       <StatusBar style="auto" />
     </SafeAreaView>
@@ -65,8 +69,6 @@ const styles = StyleSheet.create({
     marginTop: -3,
     borderWidth: 0.5,
     opacity: 0.3,
-    // width: 90,
-    // borderColor: 'black',
     margin: 10,
   },
 });

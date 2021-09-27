@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import IconButton from './iconButton';
+import IconButton from './Icon';
 
 export default function Header(props) {
   return (

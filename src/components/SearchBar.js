@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { font } from './GlobalStyles';
-import { IconBtnOnly } from './iconButton';
+import { IconBtnOnly } from './Icon';
 
 export default function SearchBar(props) {
   return (

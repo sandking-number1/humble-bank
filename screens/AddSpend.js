@@ -1,28 +1,32 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
-import { cos } from 'react-native-reanimated';
 import Button from '../src/components/Button';
 import Header from '../src/components/Header';
 import MoneyInput from '../src/components/MoneyInput';
 
 export default function AddSpend({ navigation }) {
-  const [inputAmount, setInputAmount] = React.useState(1235);
+  const [inputAmount, setInputAmount] = React.useState();
   const [inputDescription, setInputDescription] = React.useState();
+  const [dataApproved, setDataApproved] = React.useState(false);
 
   const postSpending = () => {
-    return fetch('http://localhost:3001/transaction', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: `-${inputAmount}`,
-        created: Date.now(),
-        description: inputDescription,
-        spending: 'true',
-      }),
-    });
+    if (inputAmount && inputDescription) {
+      setDataApproved(true);
+      navigation.navigate('Home');
+      return fetch('http://localhost:3001/transaction', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: `-${inputAmount}`,
+          created: Date.now(),
+          description: inputDescription,
+          spending: 'true',
+        }),
+      });
+    } else alert('Please fill up inputs');
   };
 
   return (
@@ -46,6 +50,7 @@ export default function AddSpend({ navigation }) {
       <Button
         callBack={postSpending}
         navigation={navigation}
+        dataApproved={dataApproved}
         btnCopy={`Save it as today`}
       />
       {/* <Button btnCopy={`Set a date`} /> */}

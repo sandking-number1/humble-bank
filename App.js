@@ -6,8 +6,6 @@ import AddSpend from './screens/AddSpend';
 import TransDetails from './screens/TransDetails';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { transList } from './src/components/GlobalStyles';
-// import { StatusBar } from 'expo-status-bar';
 
 const Stack = createNativeStackNavigator();
 export default function App() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import moment from 'moment';
-import IconButton from '../../src/components/iconButton';
+import IconButton from './Icon';
 import { font } from './GlobalStyles';
 
 export default function TransList(props) {

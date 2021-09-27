@@ -10,7 +10,7 @@ import {
 import SearchBar from '../src/components/SearchBar';
 import TransList from '../src/components/TransList';
 import DivideLine from '../src/components/divideLine';
-import IconButton from '../src/components/iconButton';
+import IconButton from '../src/components/Icon';
 
 export default function TransDetails({ route, navigation }) {
   const { remainingBalance, initialLoading } = route.params;

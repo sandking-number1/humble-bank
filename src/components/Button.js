@@ -1,13 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 export default function Button(props) {
   return (
@@ -16,7 +8,9 @@ export default function Button(props) {
         style={styles.button}
         onPress={() => {
           props.callBack();
-          props.navigation.navigate('Home');
+          //   props.dataApproved === true
+          //     ? props.navigation.navigate('Home')
+          //     : null;
         }}
         underlayColor="#fff"
       >
@@ -28,13 +22,6 @@ export default function Button(props) {
 
 const styles = StyleSheet.create({
   button: {
-    // flex: 1,
-    // marginRight: 40,
-    // marginLeft: 40,
-    // marginTop: 130,
-    // paddingTop: 30,
-    // paddingBottom: 10,
-    // padding: 70,
     width: 200,
     height: 60,
     backgroundColor: '#8438FF',
