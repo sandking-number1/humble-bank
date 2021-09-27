@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, AppState } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import Button from '../src/components/Button';
 import Header from '../src/components/Header';
 import MoneyInput from '../src/components/MoneyInput';
@@ -27,28 +27,12 @@ export default function AddSpend({ navigation }) {
           }),
         };
         await fetch('http://localhost:3001/transaction', addSpending);
-        console.log('it has been posted');
         navigation.navigate('Home');
       } else alert('Please fill up inputs');
     } catch (err) {
       console.log(err);
     }
   };
-
-  //   const postRequest = async () =>
-  //     fetch('http://localhost:3001/transaction', {
-  //       method: 'POST',
-  //       headers: {
-  //         Accept: 'application/json',
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         amount: `-${inputAmount}`,
-  //         created: Date.now(),
-  //         description: inputDescription,
-  //         spending: 'true',
-  //       }),
-  //     });
 
   return (
     <SafeAreaView style={styles.container}>

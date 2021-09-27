@@ -40,13 +40,11 @@ const postTransaction = async (req, res) => {
 
 const deleteTransaction = async (req, res) => {
   const id = req.body.id;
-  console.log(id);
   Transaction.deleteOne({ _id: id }, (err) => {
     if (err) {
       console.log(err);
       res.status(500).send(err);
     }
-    console.log('done');
     res.status(200).send();
   });
 };

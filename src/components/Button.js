@@ -9,7 +9,6 @@ export default function Button(props) {
         onPress={() => {
           props.callBack();
         }}
-        // underlayColor="#fff"
       >
         <Text style={styles.enter}>{props.btnCopy}</Text>
       </TouchableOpacity>

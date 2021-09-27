@@ -15,7 +15,7 @@ export default function App() {
       <Stack.Navigator //
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="StartPage" component={StartPage} />
+        {/* <Stack.Screen name="StartPage" component={StartPage} /> */}
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="AddSpend" component={AddSpend} />
         <Stack.Screen name="AddMoney" component={AddMoney} />

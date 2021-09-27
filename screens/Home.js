@@ -6,9 +6,10 @@ import {
   SafeAreaView,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from 'react-native';
 import HomeMain from '../src/components/home/HomeMain';
-import TransList from '../src/components/TransList';
+import TransList from '../src/components/TransItem';
 import { IconButton, IconBtnOnly } from '../src/components/Icon';
 import { font } from '../src/components/GlobalStyles';
 
@@ -17,14 +18,12 @@ export default function Home({ navigation }) {
   const [initialBalance, setInitialBalance] = useState();
   const [sum, setSum] = useState();
   const remainingBalance = initialBalance + sum;
-  const [isLoading, setIsLoading] = React.useState(true);
 
   const reducer = (previousValue, currentValue) => previousValue + currentValue;
 
   useEffect(() => {
     fetchData();
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('revisit');
       fetchData();
     });
     return unsubscribe;
@@ -34,7 +33,6 @@ export default function Home({ navigation }) {
     try {
       const res = await fetch(`http://localhost:3001/transaction`);
       const data = await res.json();
-      console.log(data);
       setInitialLoading(sortDate(data));
       setInitialBalance(data[0].account_balance);
       if (data.slice(1).length >= 1) {
@@ -75,10 +73,46 @@ export default function Home({ navigation }) {
           created={item.created}
           amount={item.amount}
           description={item.description}
+          id={item._id}
           keyExtractor={(item) => item._id}
+          deleteItem={deleteItem}
         ></TransList>
       );
     }
+  };
+
+  const deleteItem = (targetId) => {
+    const deleteItem = {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: targetId,
+      }),
+    };
+    return Alert.alert(
+      'Confirmation',
+      'Do you want to remove this transaction?',
+      [
+        // The "Yes" button
+        {
+          text: 'Yes',
+          onPress: () => {
+            fetch(`http://localhost:3001/transaction/${targetId}`, deleteItem);
+            setInitialLoading(
+              initialLoading.filter((i) => {
+                return i._id !== targetId;
+              })
+            );
+          },
+        },
+        {
+          text: 'No',
+        },
+      ]
+    );
   };
 
   return (
@@ -132,8 +166,10 @@ export default function Home({ navigation }) {
           data={initialLoading}
           renderItem={renderItem}
           keyExtractor={(item) => {
-            item._id;
+            // console.log('id', item._id);
+            return item._id.toString();
           }}
+          extraData={initialLoading}
         />
       </View>
     </SafeAreaView>

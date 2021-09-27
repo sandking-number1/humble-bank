@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -6,15 +6,22 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import SearchBar from '../src/components/SearchBar';
-import TransList from '../src/components/TransList';
+import TransList from '../src/components/TransItem';
 import DivideLine from '../src/components/DivideLine';
 import IconButton from '../src/components/Icon';
 
 export default function TransDetails({ route, navigation }) {
   const { remainingBalance, initialLoading } = route.params;
   const [searchTerm, setSearchTerm] = useState('');
+  const [arrayToBeSearched, SetArrayToBeSearched] = useState([]);
+
+  useEffect(() => {
+    SetArrayToBeSearched(initialLoading);
+  }, []);
+
   const renderItem = ({ item }) => {
     if (item.amount) {
       return (
@@ -22,31 +29,57 @@ export default function TransDetails({ route, navigation }) {
           created={item.created}
           amount={item.amount}
           description={item.description}
-          keyExtractor={(item) => item._id}
+          id={item._id}
+          deleteItem={deleteItem}
         />
       );
     }
   };
 
-  const searchResult = initialLoading.filter((i) => {
+  const deleteItem = (targetId) => {
+    const deleteItem = {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: targetId,
+      }),
+    };
+    return Alert.alert(
+      'Confirmation',
+      'Do you want to remove this transaction?',
+      [
+        // The "Yes" button
+        {
+          text: 'Yes',
+          onPress: () => {
+            fetch(`http://localhost:3001/transaction/${targetId}`, deleteItem);
+            SetArrayToBeSearched(
+              arrayToBeSearched.filter((i) => {
+                return i._id !== targetId;
+              })
+            );
+          },
+        },
+        {
+          text: 'No',
+        },
+      ]
+    );
+  };
+
+  const searchResult = arrayToBeSearched.filter((i) => {
     if (searchTerm === '') {
-      //   console.log(i);
       return i;
     } else if (
       i.description &&
       i.description.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
-      //   console.log(i);
       return i;
     }
   });
-
-  //   console.log(testObject);
-  //   const handelSearch = (text) => {
-  //     console.log(text);
-  //   };
-
-  //   const searchResult = remainingBalance.map((item) => console.log(item));
 
   return (
     <SafeAreaView
@@ -99,8 +132,9 @@ export default function TransDetails({ route, navigation }) {
           data={searchResult}
           renderItem={renderItem}
           keyExtractor={(item) => {
-            item._id;
+            return item._id.toString();
           }}
+          extraData={arrayToBeSearched}
         />
       </View>
       <DivideLine />

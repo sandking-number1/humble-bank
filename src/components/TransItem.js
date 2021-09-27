@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import moment from 'moment';
 import IconButton from './Icon';
 import { font } from './GlobalStyles';
@@ -12,9 +12,17 @@ export default function TransList(props) {
 
   return (
     <View style={styles.activities_item}>
-      <View style={styles.icon}>
-        <IconButton name={'isv'} />
-      </View>
+      <TouchableOpacity onPress={() => props.deleteItem(props.id)}>
+        <View style={styles.icon}>
+          <IconButton name={'isv'} />
+        </View>
+      </TouchableOpacity>
+
+      {/* <TouchableOpacity onPress={(e) => showConfirmDialog(props.id)}>
+        <View style={styles.icon}>
+          <IconButton name={'isv'} />
+        </View>
+      </TouchableOpacity> */}
 
       <View style={[styles.transList]}>
         <Text style={font.primary}>{props.description}</Text>

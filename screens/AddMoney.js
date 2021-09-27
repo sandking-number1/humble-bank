@@ -28,7 +28,6 @@ export default function AddMoney({ navigation }) {
           }),
         };
         await fetch('http://localhost:3001/transaction', addMoney);
-        console.log('it has been posted');
         navigation.navigate('Home');
       } else alert('Please fill up inputs');
     } catch (err) {
