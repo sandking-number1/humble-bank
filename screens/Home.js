@@ -8,6 +8,7 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
+import Header from '../src/components/Header';
 import HomeMain from '../src/components/home/HomeMain';
 import TransList from '../src/components/TransItem';
 import { IconButton, IconBtnOnly } from '../src/components/Icon';
@@ -106,6 +107,7 @@ export default function Home({ navigation }) {
                 return i._id !== targetId;
               })
             );
+            // await fetchData();
           },
         },
         {
@@ -116,10 +118,13 @@ export default function Home({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.navigation}>
-        <Text>Home</Text>
-      </View>
+    <SafeAreaView>
+      <Header
+        pageName={'Home'}
+        icon={'setting'}
+        navigateTo={'Setting'}
+        navigation={navigation}
+      />
 
       {/* budget card  */}
       <HomeMain key={1} initialBalance={initialBalance} sum={sum}></HomeMain>
@@ -134,7 +139,7 @@ export default function Home({ navigation }) {
         >
           <View>
             <IconButton style={{ paddingLeft: 10 }} name={'tago'} />
-            <Text style={[font.primary, { paddingTop: 10 }]}>AddSpend</Text>
+            <Text style={[font.primary, { paddingTop: 10 }]}>Add Spend</Text>
           </View>
         </TouchableOpacity>
 
@@ -144,7 +149,7 @@ export default function Home({ navigation }) {
           }}
         >
           <IconButton name={'plussquare'} />
-          <Text style={[font.primary, { paddingTop: 10 }]}>AddMoney</Text>
+          <Text style={[font.primary, { paddingTop: 10 }]}>Add Money</Text>
         </TouchableOpacity>
       </View>
       {/* recent activities bar */}
@@ -166,7 +171,6 @@ export default function Home({ navigation }) {
           data={initialLoading}
           renderItem={renderItem}
           keyExtractor={(item) => {
-            // console.log('id', item._id);
             return item._id.toString();
           }}
           extraData={initialLoading}

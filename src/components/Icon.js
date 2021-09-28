@@ -24,7 +24,6 @@ export default function IconButton(props) {
 
 const styles = StyleSheet.create({
   iconBtnContainer: {
-    // flex: 1,
     width: 50,
     height: 50,
     borderRadius: 16,
@@ -32,6 +31,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.2,
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: '#F9FAFB',
   },
   iconBtnOnly: {
     justifyContent: 'center',

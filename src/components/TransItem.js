@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import moment from 'moment';
-import IconButton from './Icon';
+import { IconBtnOnly } from './Icon';
 import { font } from './GlobalStyles';
 
 export default function TransList(props) {
@@ -14,15 +14,9 @@ export default function TransList(props) {
     <View style={styles.activities_item}>
       <TouchableOpacity onPress={() => props.deleteItem(props.id)}>
         <View style={styles.icon}>
-          <IconButton name={'isv'} />
+          <IconBtnOnly name={'isv'} />
         </View>
       </TouchableOpacity>
-
-      {/* <TouchableOpacity onPress={(e) => showConfirmDialog(props.id)}>
-        <View style={styles.icon}>
-          <IconButton name={'isv'} />
-        </View>
-      </TouchableOpacity> */}
 
       <View style={[styles.transList]}>
         <Text style={font.primary}>{props.description}</Text>
@@ -48,20 +42,20 @@ const styles = StyleSheet.create({
     paddingRight: 50,
     width: 400,
     marginBottom: 1,
-    // backgroundColor: 'yellow',
-    // borderWidth: 1,
   },
   transList: {
     flex: 4,
     justifyContent: 'center',
     alignContent: 'flex-start',
-    // borderWidth: 1,
     width: 200,
     paddingLeft: 20,
   },
   icon: {
     alignContent: 'flex-end',
+    padding: 18,
+    borderRadius: 14,
     justifyContent: 'center',
+    backgroundColor: '#F1F1F1',
     marginLeft: -10,
   },
   amount: {

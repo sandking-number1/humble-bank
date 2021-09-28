@@ -12,16 +12,32 @@ import IconButton from './Icon';
 
 export default function Header(props) {
   return (
-    <View style={styles.headerContainer}>
-      {/* <TouchableOpacity
-        style={styles.addBtn}
-        onPress={() => {
-          navigation.navigate('AddSpend');
+    <View
+      style={{
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <TouchableOpacity
+        style={{
+          position: 'absolute',
+          left: 20,
+          padding: 14,
+          bottom: 20,
         }}
-      > */}
-      {/* <IconButton name={'left'}></IconButton>
-      </TouchableOpacity> */}
-      <Text style={styles.budget_copy}>{`${props.headerName}`}</Text>
+        onPress={() => {
+          props.navigation.navigate(props.navigateTo);
+        }}
+      >
+        <IconButton name={props.icon} />
+      </TouchableOpacity>
+      <Text
+        style={{ justifyContent: 'flex-end', padding: 30, marginBottom: 20 }}
+      >
+        {props.pageName}
+      </Text>
     </View>
   );
 }

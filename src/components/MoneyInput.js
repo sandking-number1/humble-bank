@@ -13,6 +13,7 @@ export default function MoneyInput(props) {
         onChangeText={props.onChangeText}
         placeholder={props.placeholder}
         value={props.value}
+        placeholderTextColor="#A1A1A1"
       />
       <View style={styles.lineStyle} />
     </View>
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     width: 280,
     padding: 10,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 16,
   },
   lineStyle: {
     marginTop: -2,

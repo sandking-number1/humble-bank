@@ -8,7 +8,7 @@ export default function SearchBar(props) {
     <View style={styles.container}>
       <IconBtnOnly name="search1" />
       <TextInput
-        style={(font.searchBarPlaceholder, { marginLeft: 10 })}
+        style={(font.searchBarPlaceholder, { marginLeft: 10, flex: 1 })}
         placeholder="Search..."
         placeholderTextColor="#8B98B1"
         onChangeText={props.onChangeText}
@@ -18,13 +18,10 @@ export default function SearchBar(props) {
 }
 
 const styles = StyleSheet.create({
-  container1: {
-    borderWidth: 0.5,
-  },
   container: {
     flexDirection: 'row',
-    width: 310,
-    height: 45,
+    width: 330,
+    height: 42,
     backgroundColor: '#F9FAFB',
     paddingLeft: 20,
     borderColor: '#D7DCE4',

@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   lineStyle: {
     marginTop: -2,
     borderWidth: 0.5,
-    width: 240,
+    width: 290,
     opacity: 0.5,
     margin: 10,
   },

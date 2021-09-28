@@ -7,11 +7,12 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  Picker,
 } from 'react-native';
 import SearchBar from '../src/components/SearchBar';
 import TransList from '../src/components/TransItem';
 import DivideLine from '../src/components/DivideLine';
-import IconButton from '../src/components/Icon';
+import Header from '../src/components/Header';
 
 export default function TransDetails({ route, navigation }) {
   const { remainingBalance, initialLoading } = route.params;
@@ -91,38 +92,43 @@ export default function TransDetails({ route, navigation }) {
         },
       ]}
     >
-      <View
-        style={{
-          borderWidth: 1,
-          width: '100%',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
-        }}
-      >
-        <TouchableOpacity
-          style={{ padding: 10 }}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
-        >
-          <IconButton name={'home'} />
-        </TouchableOpacity>
-        <Text>Details</Text>
-      </View>
+      <Header
+        navigation={navigation}
+        pageName={'Details'}
+        icon={'home'}
+        navigateTo={'Home'}
+      />
 
       {/* header */}
       <View
         style={{
+          //   flex: 1,
           flexDirection: 'row',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
+          width: '70%',
           marginBottom: 24,
         }}
       >
         <Text>Remaining Balance</Text>
         <Text>{`£ ${remainingBalance}`}</Text>
       </View>
-      <DivideLine />
+
+      <View style={{ marginTop: 10, marginBottom: 14 }}>
+        <DivideLine />
+      </View>
+
+      {/* <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '80%',
+          marginBottom: 14,
+        }}
+      >
+        <Text>Activities</Text>
+        <Text>Activities</Text>
+      </View> */}
+
       {/* searchbar */}
       <SearchBar onChangeText={setSearchTerm} value={searchTerm} />
 
