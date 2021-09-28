@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { font } from './GlobalStyles';
 
 export default function MoneyInput(props) {
   return (
     <View style={styles.input_container}>
-      <Text>{props.mainCopy}</Text>
+      <Text style={font.primary}>{props.mainCopy}</Text>
       <TextInput
         style={styles.input}
         keyboardType={props.keyboardType}

@@ -1,41 +1,35 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  View,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, Text, View } from 'react-native';
 import Button from '../src/components/Button';
 import Header from '../src/components/Header';
 import MoneyInput from '../src/components/MoneyInput';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import moment from 'moment';
-export default function AddSpend({ navigation }) {
+import { font } from '../src/components/GlobalStyles';
+
+export default function AddSpend({ route, navigation }) {
+  const { initialBalance } = route.params;
   const [inputAmount, setInputAmount] = React.useState();
-  const [inputDescription, setInputDescription] = React.useState();
+  const [currentBudget, setCurrentBudget] = React.useState(
+    initialBalance.account_balance
+  );
   const [dataApproved, setDataApproved] = React.useState(false);
 
-  const postSpending = async () => {
+  const putRequest = async (targetId) => {
     try {
-      if (inputAmount && inputDescription) {
+      if (inputAmount) {
         setDataApproved(true);
-        const addSpending = {
-          method: 'POST',
+        const putItem = {
+          method: 'PUT',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            amount: `-${inputAmount}`,
-            created: Date.now(),
-            description: inputDescription,
-            spending: 'true',
+            id: targetId,
+            account_balance: inputAmount,
           }),
         };
-        await fetch('http://localhost:3001/transaction', addSpending);
-        navigation.navigate('Home');
+        await fetch(`http://localhost:3001/transaction/${targetId}`, putItem);
+        setCurrentBudget(inputAmount);
       } else alert('Please fill up inputs');
     } catch (err) {
       console.log(err);
@@ -48,20 +42,45 @@ export default function AddSpend({ navigation }) {
         headerName={`Add Spending`}
         style={styles}
         navigation={navigation}
-        pageName={'Add Spend'}
+        pageName={'Setting'}
         icon={'home'}
         navigateTo={'Home'}
+        iconDisplay={true}
       />
+
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderTopStartRadius: 70,
+          borderTopEndRadius: 4,
+          borderBottomStartRadius: 4,
+          borderBottomEndRadius: 4,
+          backgroundColor: '#8438FF',
+          padding: 50,
+          marginBottom: 100,
+          marginTop: 30,
+          // shadow
+          //   shadowColor: '#D8C0FF',
+          shadowColor: '#9F8EBC',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.7,
+          shadowRadius: 1.41,
+
+          elevation: 2,
+        }}
+      >
+        <Text style={[font.cardFont, { paddingBottom: 20 }]}>
+          Your current budget goal{' '}
+        </Text>
+        <Text style={[font.bigWhite]}>{`£ ${currentBudget}`}</Text>
+      </View>
+
       <MoneyInput
-        mainCopy={`How much did you spend?`}
-        placeholder={`£`}
-        value={inputAmount}
-        onChangeText={setInputAmount}
-        keyboardType={`numeric`}
-        styles={styles}
-      />
-      <MoneyInput
-       mainCopy={`How much did you spend?`}
+        mainCopy={`Change it to`}
         placeholder={`£`}
         value={inputAmount}
         onChangeText={setInputAmount}
@@ -69,10 +88,11 @@ export default function AddSpend({ navigation }) {
         styles={styles}
       />
       <Button
-        callBack={postSpending}
+        callBack={putRequest}
         navigation={navigation}
         dataApproved={dataApproved}
-        btnCopy={`Save it as today`}
+        btnCopy={`Save your change`}
+        id={initialBalance._id}
       />
     </SafeAreaView>
   );

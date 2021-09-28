@@ -97,6 +97,7 @@ export default function TransDetails({ route, navigation }) {
         pageName={'Details'}
         icon={'home'}
         navigateTo={'Home'}
+        iconDisplay={true}
       />
 
       {/* header */}

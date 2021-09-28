@@ -11,10 +11,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-    // <Home />
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="StartPage" component={StartPage} /> */}
+        <Stack.Screen name="StartPage" component={StartPage} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="AddMoney" component={AddMoney} />
         <Stack.Screen name="AddSpend" component={AddSpend} />

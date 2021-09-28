@@ -16,10 +16,9 @@ import { font } from '../src/components/GlobalStyles';
 
 export default function Home({ navigation }) {
   const [initialLoading, setInitialLoading] = useState([]);
-  const [initialBalance, setInitialBalance] = useState();
+  const [initialBalance, setInitialBalance] = useState(0);
   const [sum, setSum] = useState();
-  const remainingBalance = initialBalance + sum;
-
+  const remainingBalance = initialBalance.account_balance + sum;
   const reducer = (previousValue, currentValue) => previousValue + currentValue;
 
   useEffect(() => {
@@ -35,7 +34,7 @@ export default function Home({ navigation }) {
       const res = await fetch(`http://localhost:3001/transaction`);
       const data = await res.json();
       setInitialLoading(sortDate(data));
-      setInitialBalance(data[0].account_balance);
+      setInitialBalance(data[0]);
       if (data.slice(1).length >= 1) {
         const amountArray = [];
         data.slice(1).map((i) => {
@@ -64,6 +63,13 @@ export default function Home({ navigation }) {
     navigation.navigate('TransDetails', {
       initialLoading: initialLoading,
       remainingBalance: remainingBalance,
+    });
+  }
+
+  function goToSettingScreen() {
+    navigation.navigate('Setting', {
+      initialBalance: initialBalance,
+      //   remainingBalance: remainingBalance,
     });
   }
 
@@ -107,7 +113,6 @@ export default function Home({ navigation }) {
                 return i._id !== targetId;
               })
             );
-            // await fetchData();
           },
         },
         {
@@ -119,20 +124,42 @@ export default function Home({ navigation }) {
 
   return (
     <SafeAreaView>
-      <Header
-        pageName={'Home'}
-        icon={'setting'}
-        navigateTo={'Setting'}
-        navigation={navigation}
-      />
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableOpacity
+          style={{
+            zIndex: 1,
+            position: 'absolute',
+            left: 20,
+            padding: 14,
+            bottom: 20,
+          }}
+          onPress={() => {
+            goToSettingScreen();
+          }}
+        >
+          <IconButton name="setting" />
+        </TouchableOpacity>
+
+        <Header
+          pageName={'Home'}
+          icon={'setting'}
+          navigateTo={'Setting'}
+          navigation={navigation}
+          initialBalance={initialBalance}
+          iconDisplay={false}
+        />
+      </View>
 
       {/* budget card  */}
-      <HomeMain key={1} initialBalance={initialBalance} sum={sum}></HomeMain>
+      <HomeMain
+        key={1}
+        initialBalance={initialBalance.account_balance}
+        sum={sum}
+      ></HomeMain>
 
-      {/* btn container */}
+      {/* btn container  NEED REFACTORING*/}
       <View style={styles.budgetBtnBox}>
         <TouchableOpacity
-          style={styles.addBtn}
           onPress={() => {
             navigation.navigate('AddSpend');
           }}
@@ -152,7 +179,8 @@ export default function Home({ navigation }) {
           <Text style={[font.primary, { paddingTop: 10 }]}>Add Money</Text>
         </TouchableOpacity>
       </View>
-      {/* recent activities bar */}
+
+      {/* recent activities bar  NEED REFACTORING */}
       <View style={styles.activities_bar}>
         <Text style={styles.idealSpend}>Recent Activities</Text>
         <TouchableOpacity>
@@ -165,6 +193,7 @@ export default function Home({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
+
       {/* mapping for transaction list */}
       <View style={styles.listContainer}>
         <FlatList

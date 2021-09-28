@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -8,7 +7,6 @@ function IconBtnOnly(props) {
   return (
     <View style={styles.iconBtnOnly}>
       <Icon name={props.name} size={20} color="#60708F" />
-      {/* <Text style={styles.budget_copy}>S</Text> */}
     </View>
   );
 }
@@ -17,7 +15,6 @@ export default function IconButton(props) {
   return (
     <View style={styles.iconBtnContainer}>
       <Icon name={props.name} size={20} color="#60708F" />
-      {/* <Text style={styles.budget_copy}>S</Text> */}
     </View>
   );
 }

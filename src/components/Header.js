@@ -1,16 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
 import IconButton from './Icon';
+import { font } from './GlobalStyles';
 
 export default function Header(props) {
+  const [iconDisplay, setIconDisplay] = useState(
+    props.iconDisplay ? props.iconDisplay : false
+  );
+
   return (
     <View
       style={{
@@ -26,6 +23,7 @@ export default function Header(props) {
           left: 20,
           padding: 14,
           bottom: 20,
+          display: iconDisplay ? 'block' : 'none',
         }}
         onPress={() => {
           props.navigation.navigate(props.navigateTo);
@@ -34,15 +32,13 @@ export default function Header(props) {
         <IconButton name={props.icon} />
       </TouchableOpacity>
       <Text
-        style={{ justifyContent: 'flex-end', padding: 30, marginBottom: 20 }}
+        style={[
+          font.primary,
+          { justifyContent: 'flex-end', padding: 30, marginBottom: 24 },
+        ]}
       >
         {props.pageName}
       </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  headerContainer: { marginTop: 20, marginBottom: 250, flexDirection: 'row' },
-  //   budget_copy: { textAlign: 'center', marginBottom: 200, marginBottom: 50 },
-});

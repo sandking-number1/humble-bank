@@ -5,12 +5,14 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  View,
 } from 'react-native';
 import Button from '../src/components/Button';
 import Header from '../src/components/Header';
 import MoneyInput from '../src/components/MoneyInput';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
+import { font } from '../src/components/GlobalStyles';
 
 export default function AddMoney({ navigation }) {
   const [inputAmount, setInputAmount] = React.useState();
@@ -72,56 +74,60 @@ export default function AddMoney({ navigation }) {
         pageName={'Add Spending'}
         icon={'home'}
         navigateTo={'Home'}
-      />
-      <MoneyInput
-        mainCopy={`How much did you spend?`}
-        placeholder={`£`}
-        value={inputAmount}
-        onChangeText={setInputAmount}
-        keyboardType={`numeric`}
-        styles={styles}
-      />
-      <MoneyInput
-        mainCopy={`Description?`}
-        placeholder={`eg. Spotify subscription`}
-        value={inputDescription}
-        onChangeText={setInputDescription}
-        styles={styles}
+        iconDisplay={true}
       />
 
-      {/* delete */}
-      <Text>{'Pick your date'}</Text>
-
-      <TouchableOpacity onPress={showDatePicker}>
-        <TextInput
-          pointerEvents="none"
-          style={styles.textInput1}
-          placeholder={inputDate.toString()}
-          editable={false}
-          placeholderTextColor="#A1A1A1"
-          value={inputDate.toString()}
+      <View
+        style={{
+          alignItems: 'center',
+          marginTop: '34%',
+        }}
+      >
+        <MoneyInput
+          mainCopy={`How much did you spend?`}
+          placeholder={`£`}
+          value={inputAmount}
+          onChangeText={setInputAmount}
+          keyboardType={`numeric`}
+          styles={styles}
         />
-        {/* <View style={styles.lineStyle} /> */}
-
-        <DateTimePickerModal
-          headerTextIOS={placeholder}
-          isVisible={isDatePickerVisible}
-          mode="date"
-          //   date={new Date()}
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-          textColor="black"
-          isDarkModeEnabled={false}
+        <MoneyInput
+          mainCopy={`Description?`}
+          placeholder={`eg. Spotify subscription`}
+          value={inputDescription}
+          onChangeText={setInputDescription}
+          styles={styles}
         />
-      </TouchableOpacity>
 
-      {/* delete */}
+        <Text style={font.primary}>{'Pick your date'}</Text>
+
+        <TouchableOpacity onPress={showDatePicker}>
+          <TextInput
+            pointerEvents="none"
+            style={styles.textInput1}
+            placeholder={inputDate.toString()}
+            editable={false}
+            placeholderTextColor="#A1A1A1"
+            value={inputDate.toString()}
+          />
+          <View style={styles.lineStyle} />
+
+          <DateTimePickerModal
+            headerTextIOS={placeholder}
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+            textColor="black"
+            isDarkModeEnabled={false}
+          />
+        </TouchableOpacity>
+      </View>
       <Button
         callBack={postSpending}
         dataApproved={dataApproved}
         btnCopy={`Save`}
       />
-      {/* <Button btnCopy={`Set a date`} /> */}
     </SafeAreaView>
   );
 }
@@ -129,12 +135,6 @@ export default function AddMoney({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    // backgroundColor: '',
-  },
-  header: {
-    borderWidth: 1,
   },
   input_container: {
     alignItems: 'center',
@@ -143,9 +143,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     height: 50,
     width: 260,
-    borderBottomWidth: 1,
     opacity: 0.4,
-    padding: 10,
+    padding: 8,
+    marginBottom: -3,
     textAlign: 'center',
   },
   lineStyle: {

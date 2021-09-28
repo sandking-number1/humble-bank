@@ -45,8 +45,29 @@ const deleteTransaction = async (req, res) => {
       console.log(err);
       res.status(500).send(err);
     }
-    res.status(200).send();
+    res.status(200).send('it has been deleted');
   });
 };
 
-module.exports = { getTransaction, postTransaction, deleteTransaction };
+const putRequest = async (req, res) => {
+  const id = req.body.id;
+  const account_balance = req.body.account_balance;
+  Transaction.findByIdAndUpdate(
+    { _id: id },
+    { account_balance: account_balance },
+    (err) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send();
+      }
+      res.status(200).send(`it has been updated `);
+    }
+  );
+};
+
+module.exports = {
+  getTransaction,
+  postTransaction,
+  deleteTransaction,
+  putRequest,
+};

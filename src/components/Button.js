@@ -1,16 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-
+import { font } from './GlobalStyles';
 export default function Button(props) {
   return (
     <View style={styles.btn_container}>
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          props.callBack();
+          props.id ? props.callBack(props.id) : props.callBack();
         }}
       >
-        <Text style={styles.enter}>{props.btnCopy}</Text>
+        <Text style={font.midWhite}>{props.btnCopy}</Text>
       </TouchableOpacity>
     </View>
   );

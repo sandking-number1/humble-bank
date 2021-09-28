@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const font = StyleSheet.create({
   primary: { fontSize: 12, color: '#60708F', fontWeight: '700' },
+
   date: {
     fontSize: 12,
     color: '#BBBFC9',
@@ -12,6 +13,24 @@ const font = StyleSheet.create({
     fontSize: 16,
     color: '#BBBFC9',
     fontWeight: 'normal',
+  },
+
+  cardFont: {
+    fontSize: 12,
+    color: '#FFFFFF',
+    fontWeight: '700',
+  },
+
+  bigWhite: {
+    fontSize: 24,
+    color: '#FFFFFF',
+    fontWeight: '700',
+  },
+
+  midWhite: {
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: '600',
   },
 });
 
