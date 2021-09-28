@@ -8,7 +8,7 @@ export default function MoneyInput(props) {
     <View style={styles.input_container}>
       <Text style={font.primary}>{props.mainCopy}</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, { color: '#A1A1A1' }]}
         keyboardType={props.keyboardType}
         returnKeyType={'done'}
         onChangeText={props.onChangeText}

@@ -17,17 +17,23 @@ import { font } from '../src/components/GlobalStyles';
 export default function Home({ navigation }) {
   const [initialLoading, setInitialLoading] = useState([]);
   const [initialBalance, setInitialBalance] = useState(0);
+  const [remainBalance, setRemainBalance] = useState(0);
   const [sum, setSum] = useState();
   const remainingBalance = initialBalance.account_balance + sum;
   const reducer = (previousValue, currentValue) => previousValue + currentValue;
 
   useEffect(() => {
     fetchData();
+    resetRemainBalance();
     const unsubscribe = navigation.addListener('focus', () => {
       fetchData();
     });
     return unsubscribe;
   }, [navigation]);
+
+  const resetRemainBalance = () => {
+    setRemainBalance(initialBalance.account_balance + sum);
+  };
 
   const fetchData = async () => {
     try {
@@ -69,7 +75,6 @@ export default function Home({ navigation }) {
   function goToSettingScreen() {
     navigation.navigate('Setting', {
       initialBalance: initialBalance,
-      //   remainingBalance: remainingBalance,
     });
   }
 
@@ -89,6 +94,7 @@ export default function Home({ navigation }) {
   };
 
   const deleteItem = (targetId) => {
+    console.log(targetId);
     const deleteItem = {
       method: 'DELETE',
       headers: {
@@ -96,7 +102,7 @@ export default function Home({ navigation }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: targetId,
+        id: targetId.id,
       }),
     };
     return Alert.alert(
@@ -107,12 +113,17 @@ export default function Home({ navigation }) {
         {
           text: 'Yes',
           onPress: () => {
-            fetch(`http://localhost:3001/transaction/${targetId}`, deleteItem);
+            fetch(
+              `http://localhost:3001/transaction/${targetId.id}`,
+              deleteItem
+            );
             setInitialLoading(
               initialLoading.filter((i) => {
-                return i._id !== targetId;
+                return i._id !== targetId.id;
               })
             );
+            resetRemainBalance();
+            fetchData();
           },
         },
         {
@@ -155,6 +166,8 @@ export default function Home({ navigation }) {
         key={1}
         initialBalance={initialBalance.account_balance}
         sum={sum}
+        remainingBalance={remainBalance}
+        // remainBalance={remainBalance}
       ></HomeMain>
 
       {/* btn container  NEED REFACTORING*/}
@@ -164,7 +177,7 @@ export default function Home({ navigation }) {
             navigation.navigate('AddSpend');
           }}
         >
-          <View>
+          <View style={{ alignItems: 'center' }}>
             <IconButton style={{ paddingLeft: 10 }} name={'tago'} />
             <Text style={[font.primary, { paddingTop: 10 }]}>Add Spend</Text>
           </View>
@@ -175,8 +188,10 @@ export default function Home({ navigation }) {
             navigation.navigate('AddMoney');
           }}
         >
-          <IconButton name={'plussquare'} />
-          <Text style={[font.primary, { paddingTop: 10 }]}>Add Money</Text>
+          <View style={{ alignItems: 'center' }}>
+            <IconButton name={'plussquare'} />
+            <Text style={[font.primary, { paddingTop: 10 }]}>Add Money</Text>
+          </View>
         </TouchableOpacity>
       </View>
 

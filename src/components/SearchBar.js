@@ -20,7 +20,7 @@ export default function SearchBar(props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    width: 330,
+    width: 310,
     height: 42,
     backgroundColor: '#F9FAFB',
     paddingLeft: 20,

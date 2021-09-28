@@ -5,14 +5,13 @@ import {
   SafeAreaView,
   StyleSheet,
   FlatList,
-  TouchableOpacity,
   Alert,
-  Picker,
 } from 'react-native';
 import SearchBar from '../src/components/SearchBar';
 import TransList from '../src/components/TransItem';
 import DivideLine from '../src/components/DivideLine';
 import Header from '../src/components/Header';
+import { font } from '../src/components/GlobalStyles';
 
 export default function TransDetails({ route, navigation }) {
   const { remainingBalance, initialLoading } = route.params;
@@ -45,23 +44,29 @@ export default function TransDetails({ route, navigation }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: targetId,
+        id: targetId.id,
       }),
     };
     return Alert.alert(
       'Confirmation',
       'Do you want to remove this transaction?',
       [
-        // The "Yes" button
         {
           text: 'Yes',
           onPress: () => {
-            fetch(`http://localhost:3001/transaction/${targetId}`, deleteItem);
+            fetch(
+              `http://localhost:3001/transaction/${targetId.id}`,
+              deleteItem
+            );
+
             SetArrayToBeSearched(
               arrayToBeSearched.filter((i) => {
-                return i._id !== targetId;
+                return i._id !== targetId.id;
               })
             );
+            navigation.setParams({
+              remainingBalance: remainingBalance - targetId.amount,
+            });
           },
         },
         {
@@ -110,14 +115,15 @@ export default function TransDetails({ route, navigation }) {
           marginBottom: 24,
         }}
       >
-        <Text>Remaining Balance</Text>
-        <Text>{`£ ${remainingBalance}`}</Text>
+        <Text style={font.lighterPrimary}>Remaining Balance</Text>
+        <Text style={font.lighterPrimary}>{`£ ${remainingBalance}`}</Text>
       </View>
 
       <View style={{ marginTop: 10, marginBottom: 14 }}>
         <DivideLine />
       </View>
 
+      {/* adding this in the future  */}
       {/* <View
         style={{
           flexDirection: 'row',

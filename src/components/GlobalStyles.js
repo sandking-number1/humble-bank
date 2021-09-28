@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 const font = StyleSheet.create({
   primary: { fontSize: 12, color: '#60708F', fontWeight: '700' },
 
+  lighterPrimary: { fontSize: 13, color: '#60708F', fontWeight: '700' },
+
   date: {
     fontSize: 12,
     color: '#BBBFC9',

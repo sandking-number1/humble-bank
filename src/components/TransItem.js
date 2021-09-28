@@ -12,14 +12,16 @@ export default function TransList(props) {
 
   return (
     <View style={styles.activities_item}>
-      <TouchableOpacity onPress={() => props.deleteItem(props.id)}>
+      <TouchableOpacity onPress={() => props.deleteItem(props)}>
         <View style={styles.icon}>
           <IconBtnOnly name={'isv'} />
         </View>
       </TouchableOpacity>
 
       <View style={[styles.transList]}>
-        <Text style={font.primary}>{props.description}</Text>
+        <Text style={[font.primary, { marginBottom: 3 }]}>
+          {props.description}
+        </Text>
         <Text style={font.date}>{formatDate(props.created)}</Text>
       </View>
 
