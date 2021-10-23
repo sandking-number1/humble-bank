@@ -42,7 +42,7 @@ pod install
 npm start
 ```
 
-4. Start client server in the server folder in the root folder
+4. Start client in the root folder
 
 ```
 expo start
