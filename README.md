@@ -18,7 +18,6 @@ also Follow the instructions supplied below them or on their links to get them u
 - [Expo XDE](https://expo.dev/) - the Expo development environment. npm install -g exp
 
 <br>
-<br>
 
 # Installation
 
