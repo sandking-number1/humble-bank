@@ -2,7 +2,7 @@
 
 # Humble Bank 💰
 
-<img src='https://user-images.githubusercontent.com/62832553/138558574-1cfa4497-140f-49bd-8207-f379fcab9773.png' width='500'>
+<img src='https://user-images.githubusercontent.com/62832553/138558574-1cfa4497-140f-49bd-8207-f379fcab9773.png' width='900'>
 
 Humble Bank is a mobile (iOS) app aimed at helping us track and categorize your transactions to save the their wallet from unexpected or unrecognized expenses.
 <br>
@@ -17,7 +17,6 @@ also Follow the instructions supplied below them or on their links to get them u
 - [Cocoapods](https://cocoapods.org/) - a dependency manager for Swift and Objective-C Cocoa projects. sudo gem install cocoapods
 - [Expo XDE](https://expo.dev/) - the Expo development environment. npm install -g exp
 
-<br>
 <br>
 
 # Installation
@@ -43,13 +42,13 @@ pod install
 npm start
 ```
 
-4. Start client server in the server folder in the root folder
+4. Start client in the root folder
 
 ```
 expo start
 ```
 
-<br><br>
+<br>
 
 # Tech Stack used for this project
 
