@@ -4,7 +4,7 @@ import Button from '../src/components/Button';
 import Header from '../src/components/Header';
 import MoneyInput from '../src/components/MoneyInput';
 import { font } from '../src/components/GlobalStyles';
-
+import Check from '../src/components/Check';
 export default function AddSpend({ route, navigation }) {
   const { initialBalance } = route.params;
   const [inputAmount, setInputAmount] = React.useState();
@@ -12,6 +12,7 @@ export default function AddSpend({ route, navigation }) {
     initialBalance.account_balance
   );
   const [dataApproved, setDataApproved] = React.useState(false);
+  const [checkIsShowing, setCheckIsShowing] = React.useState(false);
 
   const putRequest = async (targetId) => {
     try {
@@ -30,6 +31,10 @@ export default function AddSpend({ route, navigation }) {
         };
         await fetch(`http://localhost:3001/transaction/${targetId}`, putItem);
         setCurrentBudget(inputAmount);
+        setCheckIsShowing(true);
+        setTimeout(function () {
+          navigation.navigate('Home');
+        }, 1200);
       } else alert('Please fill up inputs');
     } catch (err) {
       console.log(err);
@@ -38,6 +43,23 @@ export default function AddSpend({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* check png */}
+      {checkIsShowing ? (
+        <View
+          style={{
+            flex: 1,
+            position: 'absolute',
+            zIndex: '1',
+            flex: 1,
+            backgroundColor: 'white',
+            paddingVertical: 600,
+            paddingHorizontal: 140,
+          }}
+        >
+          <Check />
+        </View>
+      ) : null}
+      {/* header */}
       <Header
         headerName={`Add Spending`}
         style={styles}
@@ -60,8 +82,6 @@ export default function AddSpend({ route, navigation }) {
           padding: 50,
           marginBottom: 100,
           marginTop: 30,
-          // shadow
-          //   shadowColor: '#D8C0FF',
           shadowColor: '#9F8EBC',
           shadowOffset: {
             width: 0,

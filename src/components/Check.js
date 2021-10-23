@@ -4,15 +4,15 @@ import { SafeAreaView, View, Image } from 'react-native';
 const Check = ({ navigation }) => {
   //   navigation.navigate('Home');
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setTimeout(function () {
-        console.log('heelo');
-        navigation.navigate('Home');
-      }, 20);
-    });
-    return unsubscribe;
-  }, []);
+  //   useEffect(() => {
+  //     const unsubscribe = navigation.addListener('focus', () => {
+  //       setTimeout(function () {
+  //         console.log('heelo');
+  //         navigation.navigate('Home');
+  //       }, 20);
+  //     });
+  //     return unsubscribe;
+  //   }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -25,8 +25,8 @@ const Check = ({ navigation }) => {
         }}
       >
         <Image
-          source={require('../assets/Check.png')}
-          style={{ width: 120, height: 120 }}
+          source={require('../../assets/Check.png')}
+          style={{ width: 140, height: 140 }}
         />
       </View>
     </SafeAreaView>

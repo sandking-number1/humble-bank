@@ -42,13 +42,21 @@ export default function TransList(props) {
 const styles = StyleSheet.create({
   cardContainer: {
     justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: '#8438FF',
     width: 250,
     height: 150,
     borderRadius: 10,
     marginBottom: 30,
     padding: 30,
+    shadowColor: '#9F8EBC',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.7,
+    shadowRadius: 20,
+
+    elevation: 2,
   },
   remainingBalContain: {
     alignItems: 'center',

@@ -11,18 +11,18 @@ import Button from '../src/components/Button';
 import Header from '../src/components/Header';
 import MoneyInput from '../src/components/MoneyInput';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import Check from '../src/components/Check';
 import { font } from '../src/components/GlobalStyles';
-
 import moment from 'moment';
 
 export default function AddMoney({ navigation }) {
   const [inputAmount, setInputAmount] = React.useState();
   const [inputDescription, setInputDescription] = React.useState();
   const [dataApproved, setDataApproved] = React.useState(false);
-
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [inputDate, setInputDate] = useState(moment().format('D.M.YYYY'));
   const [dateForPost, setDateForPost] = useState(new Date());
+  const [checkIsShowing, setCheckIsShowing] = React.useState(false);
 
   const placeholder = 'click to change the date';
 
@@ -44,7 +44,11 @@ export default function AddMoney({ navigation }) {
           }),
         };
         await fetch('http://localhost:3001/transaction', addMoney);
-        navigation.navigate('Home');
+        setCheckIsShowing(true);
+        setTimeout(function () {
+          navigation.navigate('Home');
+        }, 1000);
+        // navigation.navigate('Home');
       } else alert('Please fill up inputs');
     } catch (err) {
       console.log(err);
@@ -70,6 +74,23 @@ export default function AddMoney({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* check png */}
+      {checkIsShowing ? (
+        <View
+          style={{
+            flex: 1,
+            position: 'absolute',
+            zIndex: '1',
+            flex: 1,
+            backgroundColor: 'white',
+            paddingVertical: 600,
+            paddingHorizontal: 140,
+          }}
+        >
+          <Check />
+        </View>
+      ) : null}
+
       <Header
         headerName={`Add Money`}
         style={styles}
@@ -137,6 +158,8 @@ export default function AddMoney({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   input_container: {
     alignItems: 'center',

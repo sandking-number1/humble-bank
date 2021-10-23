@@ -94,7 +94,6 @@ export default function Home({ navigation }) {
   };
 
   const deleteItem = (targetId) => {
-    console.log(targetId);
     const deleteItem = {
       method: 'DELETE',
       headers: {

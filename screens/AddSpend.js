@@ -13,6 +13,7 @@ import MoneyInput from '../src/components/MoneyInput';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import { font } from '../src/components/GlobalStyles';
+import Check from '../src/components/Check';
 
 export default function AddMoney({ navigation }) {
   const [inputAmount, setInputAmount] = React.useState();
@@ -22,6 +23,7 @@ export default function AddMoney({ navigation }) {
   const [inputDate, setInputDate] = useState(moment().format('D.M.YYYY'));
   const [dateForPost, setDateForPost] = useState(new Date());
   const placeholder = 'click to change the date';
+  const [checkIsShowing, setCheckIsShowing] = React.useState(false);
 
   const postSpending = async () => {
     try {
@@ -41,7 +43,11 @@ export default function AddMoney({ navigation }) {
           }),
         };
         await fetch('http://localhost:3001/transaction', addSpending);
-        navigation.navigate('Home');
+        setCheckIsShowing(true);
+        setTimeout(function () {
+          navigation.navigate('Home');
+        }, 1000);
+        // navigation.navigate('Home');
       } else alert('Please fill up inputs');
     } catch (err) {
       console.log(err);
@@ -67,6 +73,22 @@ export default function AddMoney({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* check png */}
+      {checkIsShowing ? (
+        <View
+          style={{
+            flex: 1,
+            position: 'absolute',
+            zIndex: '1',
+            flex: 1,
+            backgroundColor: 'white',
+            paddingVertical: 600,
+            paddingHorizontal: 140,
+          }}
+        >
+          <Check />
+        </View>
+      ) : null}
       <Header
         headerName={`Add Spending`}
         style={styles}
@@ -135,6 +157,8 @@ export default function AddMoney({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   input_container: {
     alignItems: 'center',
