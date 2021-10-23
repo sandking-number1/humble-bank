@@ -2,7 +2,7 @@
 
 # Humble Bank 💰
 
-<img src='https://user-images.githubusercontent.com/62832553/138558574-1cfa4497-140f-49bd-8207-f379fcab9773.png' width='500'>
+<img src='https://user-images.githubusercontent.com/62832553/138558574-1cfa4497-140f-49bd-8207-f379fcab9773.png' width='700'>
 
 Humble Bank is a mobile (iOS) app aimed at helping us track and categorize your transactions to save the their wallet from unexpected or unrecognized expenses.
 <br>
@@ -49,7 +49,7 @@ npm start
 expo start
 ```
 
-<br><br>
+<br>
 
 # Tech Stack used for this project
 
